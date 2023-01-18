@@ -1683,7 +1683,7 @@ class WOQLQuery:
         triple_args = self.triple(subject, predicate, object_or_literal)
         if subject and subject == "args":
             return triple_args
-        self._cursor["@type"] = "AddTriple"
+        self._cursor["@type"] = "AddQuad"
         return self._updated()
 
     def update_triple(self, subject, predicate, new_object):
@@ -1758,7 +1758,7 @@ class WOQLQuery:
             raise ValueError(
                 "Delete Quad takes four parameters, the last should be a graph id"
             )
-        self._cursor["@type"] = "AddTriple"
+        self._cursor["@type"] = "AddQuad"
         self._cursor["graph"] = self._clean_graph(graph)
         return self._updated()
 
@@ -3087,11 +3087,11 @@ class WOQLQuery:
         if g is None:
             g = "schema"
 
-        if t == "AddTriple":
+        if t == "AddQuad":
             self.woql_and(WOQLQuery().add_triple(s, p, o))
         elif t == "DeleteTriple":
             self.woql_and(WOQLQuery().delete_triple(s, p, o))
-        elif t == "AddTriple":
+        elif t == "AddQuad":
             self.woql_and(WOQLQuery().add_quad(s, p, o, g))
         elif t == "DeleteTriple":
             self.woql_and(WOQLQuery().delete_quad(s, p, o, g))
